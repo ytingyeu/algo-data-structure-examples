@@ -15,15 +15,16 @@ Also I assume **no mutiple nodes share the same value.**
 
 ```python
 class OSTreeNode(object):
-    def __init__(self, val=0, left: OSTreeNode = None, right: OSTreeNode = None):
-        self.val = val
-        self.left = left
-        self.right = right
-        self.size = 1
+	def __init__(self, val=0, left: OSTreeNode = None, right: OSTreeNode = None):
+		self.val = val
+		self.left = left
+		self.right = right
+		self.size = 1
 ```
 
 ## Insert node
 Simply add one to the size of each node during insert traversal:
+
 ```python
 def _insert_node(root: OSTreeNode, new_node: OSTreeNode):
 	if root.val > new_node.val:
