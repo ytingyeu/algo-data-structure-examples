@@ -9,7 +9,7 @@ My order statistic tree supports:
 
 # Implementation
 ## Tree node
-Compare to standard BST, OSTreeNode has one more property `size`, which is the number of its children plus one for itself. 
+Compare to standard BST, `OSTreeNode` has one more property `size`, which is the number of its children plus one for itself. 
 
 Also I assume **no mutiple nodes share the same value.**
 
@@ -66,7 +66,7 @@ def fix_all_sum(self, root: OSTreeNode) -> None:
 	_fix_sum(root)
 ```
 
-Of course we can run `fix_all_sum()` from the root of the tree every time `delete()` completes. However you might notice that not every node need to be maintained. 
+Of course we can call `fix_all_sum()` from the root of the tree every time `delete()` completes. However you might notice that not every node need to be maintained. 
 
 For example, consider following tree node deletion (replace deleted node that has two children with the inorder successor):
 
