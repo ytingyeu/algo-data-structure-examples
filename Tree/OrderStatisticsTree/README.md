@@ -1,7 +1,7 @@
-# Summary
+# Order Statistics Tree
 This example relates to the follow-up question of [LeetCode 230](https://leetcode.com/problems/kth-smallest-element-in-a-bst/), which is using [Order Statistic Tree](https://en.wikipedia.org/wiki/Order_statistic_tree) to optimize.
 
-My order statistic tree supports:
+My order statistic tree is based on stardard BST. It supports:
 - `insert()`: in O(log n)
 - `delete()`: include node size maintenance, in O(log n)
 - `select()`: find the k-th smallest element in O(log n)
