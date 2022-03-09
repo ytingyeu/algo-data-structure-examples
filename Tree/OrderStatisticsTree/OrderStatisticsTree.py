@@ -127,14 +127,14 @@ class OSTree(object):
             print('Nodes to be fixed: ', end='')
             print(' '.join(str(item.val) for item in descendants_need_fix))
 
-            self.fix_all_sum(self.root, descendants_need_fix)
+            self._fix_all_sum(self.root, descendants_need_fix)
 
     def _find_inorder_successor(self, curr: OSTreeNode) -> OSTreeNode:
         while curr.left:
             curr = curr.left
         return curr
 
-    def fix_all_sum(self, root: OSTreeNode, descendants_need_fix: List[int]) -> None:
+    def _fix_all_sum(self, root: OSTreeNode, descendants_need_fix: List[int]) -> None:
         """Maintain size of each tree node after insert, delete, or value change. Start from the passed root.
 
         Ref: https://www.cs.yale.edu/homes/aspnes/pinewiki/AggregateQueries.html
@@ -157,10 +157,10 @@ class OSTree(object):
         # Since not both left and right child node need to fix the size,
         # we only run it on nodes whose descendants have changed.
         if root.left in descendants_need_fix:
-            self.fix_all_sum(root.left, descendants_need_fix)
+            self._fix_all_sum(root.left, descendants_need_fix)
 
         if root.right in descendants_need_fix:
-            self.fix_all_sum(root.right, descendants_need_fix)
+            self._fix_all_sum(root.right, descendants_need_fix)
 
         _fix_sum(root)
 
