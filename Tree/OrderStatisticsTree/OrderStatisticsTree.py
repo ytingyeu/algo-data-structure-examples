@@ -12,7 +12,7 @@ class OSTreeNode(object):
         self.left = left
         self.right = right
 
-        # the number of its children plus one for itslef
+        # the number of its children plus one for itself
         self.size = 1
 
 
@@ -167,7 +167,7 @@ class OSTree(object):
     def select(self, k: int) -> OSTreeNode:
         """Find the k-th smallest node stored in the tree.
 
-        Ref: https://www.cs.yale.edu/homes/aspnes/pinewiki/AggregateQueries.html
+        Ref: https://www.cs.yale.edu/homes/aspnes/pinewiki/OrderStatisticsTree.html
 
         Returns:
             OSTreeNode: the k-th smallest node.
@@ -179,7 +179,7 @@ class OSTree(object):
                 print(f'k={k} is greater than the total number of nodes.')
                 return None
 
-            left_size = root.size - root.right.size if root.right else root.size
+            left_size = root.left.size + 1 if root.left else 1
 
             if k == left_size:
                 return root
@@ -194,6 +194,8 @@ class OSTree(object):
 
     def get_rank(self, target: int) -> int:
         """Find the rank of the node with a specific value.
+
+        Ref: https://www.cs.yale.edu/homes/aspnes/pinewiki/OrderStatisticsTree.html
 
         Args:
             target (int): value that target node has
@@ -211,8 +213,8 @@ class OSTree(object):
 
                 # Get the number of nodes whose value are smaller than the current node,
                 # which equals to the size of current node minus the size of right child.
-                num_of_smaller = curr.size - curr.right.size if curr.right else curr.size
-                rank += num_of_smaller
+                left_size = left_size = curr.left.size + 1 if curr.left else 1
+                rank += left_size
 
                 # end point
                 if target == curr.val:
