@@ -75,8 +75,8 @@ For example, consider following tree node deletion (replace deleted node that ha
 
 The size of node 4, 8, 9 are not changed.
 
-Quoted from the instruction above:
-> Unfortunately, running FixAllSums after any insert or delete, or change in the value of any node, will take Θ(n) time. So instead we will be slightly more clever, and run it only on nodes whose descendants have changed ... we can maintain the invariant by calling FixSum on all affected nodes at cost O(log n), which is swallowed by the O(log n) cost of the basic insert or delete
+Quoted from [1]:
+> Unfortunately, running FixAllSums after any insert or delete, or change in the value of any node, will take Θ(n) time. So instead we will be slightly more clever, and run it only on nodes whose descendants have changed... we can maintain the invariant by calling FixSum on all affected nodes at cost O(log n), which is swallowed by the O(log n) cost of the basic insert or delete
 
 My approach is adding visited node during deletion traversal into a list. Then only run `fix_all_sum()` on these node:
 
