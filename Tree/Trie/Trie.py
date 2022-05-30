@@ -5,7 +5,7 @@ class TrieNode:
 
     def __init__(self, new_char: str = ''):
         self._val: str = new_char
-        self._children = {}
+        self._children: Dict[str, TrieNode] = {}
         self._end_of_word: bool = False
 
 
@@ -56,7 +56,7 @@ class Trie:
         if not root:
             return []
 
-        l = []
+        words = []
 
         if root._children:
             if root._end_of_word:
@@ -64,12 +64,12 @@ class Trie:
 
             for child in root._children.values():
                 for word in self._get_words(child):
-                    l.append(child._val + word)
+                    words.append(child._val + word)
 
         else:
-            l.append('')
+            words.append('')
 
-        return l
+        return words
 
     def list_all(self) -> List[str]:
         return self._get_words(self._root)
