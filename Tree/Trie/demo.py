@@ -30,6 +30,7 @@ class TestTrie(unittest.TestCase):
         expect = ['ana', 'ann', 'anna']
         self.assertCountEqual(self.my_trie.find_all_starts_with('an'), expect)
 
+        self.assertCountEqual(self.my_trie.find_all_starts_with('anc'), [])
         self.assertCountEqual(self.my_trie.find_all_starts_with('c'), [])
 
 
