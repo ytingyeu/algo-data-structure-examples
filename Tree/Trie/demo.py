@@ -1,24 +1,36 @@
 import unittest
-from typing import List
 from Trie import Trie
 
 
-my_trie = Trie()
+class TestTrie(unittest.TestCase):
+    def setUp(self) -> None:
+        self.my_trie = Trie()
+        self.my_trie.insert('ana')
+        self.my_trie.insert('ann')
+        self.my_trie.insert('anna')
+        self.my_trie.insert('abba')
+        self.my_trie.insert('banana')
+        return super().setUp()
 
-my_trie.insert('ana')
-my_trie.insert('ann')
-my_trie.insert('anna')
-my_trie.insert('abba')
-my_trie.insert('banana')
+    def test_search(self):
+        self.assertTrue(self.my_trie.search('ann'))
+        self.assertTrue(self.my_trie.search('anna'))
+        self.assertFalse(self.my_trie.search('an'))
+        self.assertFalse(self.my_trie.search('ban'))
 
-assert my_trie.search('ann') == True
-assert my_trie.search('anna') == True
-assert my_trie.search('an') == False
-assert my_trie.search('ban') == False
+    def test_startWith(self):
+        self.assertTrue(self.my_trie.startsWith('an'))
+        self.assertFalse(self.my_trie.startsWith('na'))
 
-assert my_trie.startsWith('an') == True
-assert my_trie.startsWith('na') == False
+    def test_list_all(self):
+        expect = ['ana', 'ann', 'anna', 'abba', 'banana']
+        self.assertCountEqual(self.my_trie.list_all(), expect)
 
-print(my_trie.list_all())
-print(my_trie.find_all_starts_with('an'))
-print(my_trie.find_all_starts_with('c'))
+    def test_find_all_starts_with(self):
+        expect = ['ana', 'ann', 'anna']
+        self.assertCountEqual(self.my_trie.find_all_starts_with('an'), expect)
+
+        self.assertCountEqual(self.my_trie.find_all_starts_with('c'), [])
+
+
+unittest.main()
