@@ -60,7 +60,7 @@ class Trie:
 
         if root._children:
             if root._end_of_word:
-                l.append('')
+                words.append('')
 
             for child in root._children.values():
                 for word in self._get_words(child):
