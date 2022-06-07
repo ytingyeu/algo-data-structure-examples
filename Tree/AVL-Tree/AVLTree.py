@@ -15,15 +15,15 @@ class AVLTree:
         self._root = None
 
     def insert(self, val: int) -> AVLTreeNode:
-        def _insert_new_val(root: AVLTreeNode, val: int) -> AVLTreeNode:
+        def _insert_rec(root: AVLTreeNode, val: int) -> AVLTreeNode:
             if not root:
                 return AVLTreeNode(val)
 
             elif val < root.val:
-                root.left = _insert_new_val(root.left, val)
+                root.left = _insert_rec(root.left, val)
 
             else:
-                root.right = _insert_new_val(root.right, val)
+                root.right = _insert_rec(root.right, val)
 
             root.height = 1 + max(self._get_height(root.left),
                                   self._get_height(root.right))
@@ -31,7 +31,7 @@ class AVLTree:
             # start balancing
             b_factor = self._get_balance(root)
 
-            # when left subtree weighs more
+            # when left subtree is higher
             if b_factor > 1:
 
                 # case: root, left child, and inserted node forms a straight line
@@ -46,7 +46,7 @@ class AVLTree:
                     root.left = self._left_rotate(root.left)
                     return self._right_rotate(root)
 
-            # when right subtree weighs more
+            # when right subtree is higher
             if b_factor < -1:
 
                 # case: root, right child, and inserted node forms a straight line
@@ -67,10 +67,40 @@ class AVLTree:
             self._root = AVLTreeNode(val)
 
         else:
-            self._root = _insert_new_val(self._root, val)
+            self._root = _insert_rec(self._root, val)
 
-    def delete(self):
-        pass
+    def delete(self, del_val: int):
+        def _find_inorder_successor(curr: AVLTreeNode) -> AVLTreeNode:
+            curr = curr.right
+
+            while curr.left:
+                curr = curr.left
+
+            return curr
+
+        def _delete_rec(root: Optional[AVLTreeNode], del_val: int) -> AVLTreeNode:
+            if not root:
+                return root
+
+            if del_val < root.val:
+                root.left = _delete_rec(root.left, del_val)
+
+            elif del_val > root.val:
+                root.right = _delete_rec(root.right, del_val)
+
+            else:
+                # if node to be deleted has single child, 
+                # replace the value of child node with deleted node
+                # then delete the child node
+
+                # if node to be deleted has two children,
+                # replace the targeted node's value with its inorder successor
+                # then delete the successor recursively
+                pass
+            
+
+        if self._root:
+            self._root = _delete_rec(self._root, del_val)
 
     def _get_balance(self, root: Optional[AVLTreeNode]) -> int:
         if not root:
