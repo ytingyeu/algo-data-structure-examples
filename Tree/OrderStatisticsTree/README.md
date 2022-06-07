@@ -5,7 +5,7 @@ My order statistic tree is based on stardard BST. It supports:
 - `insert()`: in O(log n)
 - `delete()`: include node size maintenance, in O(log n)
 - `select()`: find the k-th smallest element in O(log n)
-- `get_rank()`: get the rank of a node, i.e. its index in the sorted list of elements of the tree, in O(log N)
+- `get_rank()`: get the rank of a node, i.e. its index in the sorted list of elements of the tree, in O(log n)
 
 # Implementation
 ## Tree node
@@ -109,8 +109,8 @@ if root.right in descendants_need_fix:
 ## Select the k-th element
 The idea is comparing `k` with the left size of a node.
 
-- `k < left_size`, the target node is one of its left children.
-- `k > left_size`, the target node is one of its right children.
+- `k < left_size`, the target node is one of its left descendants.
+- `k > left_size`, the target node is one of its right descendants.
 - `k == left_size`, we found it.
 
 Where `left_size = curr.left.size + 1 if curr.left else 1`
