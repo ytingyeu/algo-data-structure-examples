@@ -24,15 +24,15 @@ Just remove the targeted node.
 1. Replace the targeted node with its child.
 2. Delete the child node.
 
-In a balanced tree, a node with single child should not have any grandchild.
+In standard BST, we have to handle potential grandchildren.
+But in a balanced tree, a node with single child should not have any grandchild.
 Thus, we can simply delete the child node.
 
 ### Case 3: node that going to be deleted has two children
 
 1. Find the inorder successor.
 2. Replace the targeted node with the successor.
-3. Delete the successor recursively.
-
-Note that the successor has at most one child (right child)
+3. Delete the successor recursively. (the successor has at most one child -- right child)
 
 ## Maintain balance after deletion
+![alt text](./AVL-tree-delete.png "decision tree of rotations to take for balancing after deletion")

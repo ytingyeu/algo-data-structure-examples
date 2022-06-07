@@ -162,7 +162,7 @@ class AVLTree:
         """Left rotate on passed node.
 
         Args:
-            z (AVLTreeNode): the center of rotatation, i.e. the parent/root node before rotation.
+            z (AVLTreeNode): the center of rotation, i.e. the parent/root node before rotation.
 
         Returns:
             AVLTreeNode: the parent/root node after rotation.
@@ -183,7 +183,7 @@ class AVLTree:
         """Right rotate on passed node.
 
         Args:
-            z (AVLTreeNode): the center of rotatation, i.e. the parent/root node before rotation.
+            z (AVLTreeNode): the center of rotation, i.e. the parent/root node before rotation.
 
         Returns:
             AVLTreeNode: the parent/root node after rotation.
