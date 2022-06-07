@@ -89,15 +89,59 @@ class AVLTree:
                 root.right = _delete_rec(root.right, del_val)
 
             else:
-                # if node to be deleted has single child, 
-                # replace the value of child node with deleted node
-                # then delete the child node
+                # if node to be deleted has no child,
+                # just delete the root
+                if not root.left and not root.right:
+                    root = None
+                    return root
 
-                # if node to be deleted has two children,
-                # replace the targeted node's value with its inorder successor
-                # then delete the successor recursively
-                pass
-            
+                # if node to be deleted has single child,
+                # replace the deleted node its child
+                elif not root.left:
+                    temp = root.right
+                    root = None
+                    return temp
+
+                elif not root.right:
+                    temp = root.left
+                    root = None
+                    return temp
+
+                 # if node to be deleted has two children
+                else:
+                    # replace the targeted node's value with its inorder successor
+                    # then delete the successor recursively
+                    successor = _find_inorder_successor(root)
+                    root.val = successor.val
+                    root.right = _delete_rec(root.right, successor.val)
+
+            root.height = 1 + max(self._get_balance(root.left),
+                                  self._get_balance(root.right))
+
+            b_factor = self._get_balance(root)
+
+            if b_factor > 1:
+                if self._get_balance(root.left) >= 0:
+                    return self._right_rotate(root)
+
+                else:
+                    # left-right rotation:
+                    # first left rotate on left child
+                    # then right rotate on root
+                    root.left = self._left_rotate(root.left)
+                    return self._right_rotate(root)
+
+            elif b_factor < -1:
+                if self._get_balance(root.right) <= 0:
+                    return self._left_rotate(root)
+                else:
+                    # right-left rotation:
+                    # first right rotate on right child
+                    # then left rotate on root
+                    root.right = self._right_rotate(root.right)
+                    return self._left_rotate(root)
+
+            return root
 
         if self._root:
             self._root = _delete_rec(self._root, del_val)

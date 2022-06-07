@@ -14,24 +14,25 @@ Insertion is the same as standard BST.
 ![alt text](./AVL-tree-insert.png "decision tree of rotations to take for balancing after insetion")
 
 ## Delete a node
-Deletion is similar to standard BST with slight differences:
+Deletion is the same as standard BST:
 
 ### Case 1: node that going to be deleted has no child
 Just remove the targeted node.
 
+### Case 2: node that going to be deleted has single child
 
-### Case 2: node which going to be deleted has single child
-For a balanced tree, a node has single child should not have any grandchild. Thus, we can:
-
-1. Replace the value of targeted node with the child's value.
+1. Replace the targeted node with its child.
 2. Delete the child node.
 
-### Case 3: node which going to be deleted has two children
-Same reason as case 2, we can:
+In a balanced tree, a node with single child should not have any grandchild.
+Thus, we can simply delete the child node.
+
+### Case 3: node that going to be deleted has two children
 
 1. Find the inorder successor.
-2. Replace the value of targeted node with the successor's value.
+2. Replace the targeted node with the successor.
 3. Delete the successor recursively.
 
+Note that the successor has at most one child (right child)
 
 ## Maintain balance after deletion

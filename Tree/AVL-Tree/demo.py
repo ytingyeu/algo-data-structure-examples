@@ -8,3 +8,6 @@ for n in nums:
     avl_tree.insert(n)
 
 avl_tree.visualize()
+
+avl_tree.delete(8)
+avl_tree.visualize()
