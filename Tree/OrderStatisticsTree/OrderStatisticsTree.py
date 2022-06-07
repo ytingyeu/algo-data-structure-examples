@@ -86,7 +86,7 @@ class OSTree(object):
             elif curr.left and curr.right:
                 # Find inorder successor or predecessor of the node
                 # here we use successor
-                successor = self._find_inorder_successor(curr.right)
+                successor = self._find_inorder_successor(curr)
 
                 # store successor value
                 successor_val = successor.val
@@ -130,6 +130,8 @@ class OSTree(object):
             self._fix_all_sum(self.root, descendants_need_fix)
 
     def _find_inorder_successor(self, curr: OSTreeNode) -> OSTreeNode:
+        curr = curr.right
+
         while curr.left:
             curr = curr.left
         return curr
