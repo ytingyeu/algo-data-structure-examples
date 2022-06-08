@@ -114,8 +114,8 @@ class AVLTree:
                     root.val = successor.val
                     root.right = _delete_rec(root.right, successor.val)
 
-            root.height = 1 + max(self._get_balance(root.left),
-                                  self._get_balance(root.right))
+            root.height = 1 + max(self._get_height(root.left),
+                                  self._get_height(root.right))
 
             b_factor = self._get_balance(root)
 
