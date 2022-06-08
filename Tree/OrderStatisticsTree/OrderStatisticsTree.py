@@ -55,90 +55,64 @@ class OSTree:
 
             while curr.left:
                 curr = curr.left
+
             return curr
 
-        def _delete_rec(target: int, descendants_need_fix: List) -> bool:
+        def _delete_rec(root: OSTreeNode, target_val: int) -> bool:
+            if not root:
+                return root
 
-            curr = self._root
-            parent = None
+            if target_val < root.val:
+                descendants_need_fix.append(root)
+                root.left = _delete_rec(root.left, target_val)
 
-            # find the target node and also record the nodes on the path
-            # will use this list to maintain node size after deletion
-            while curr and curr.val != target:
-                parent = curr
-                descendants_need_fix.append(parent)
+            elif target_val > root.val:
+                descendants_need_fix.append(root)
+                root.right = _delete_rec(root.right, target_val)
 
-                if curr.val > target:
-                    curr = curr.left
-
-                elif curr.val < target:
-                    curr = curr.right
-
-            if not curr:
-                return False
-
-            # case: target node has no child
-            if not curr.left and not curr.right:
-
-                # if the target node is not the root of the tree then simply delete it
-                if curr != self._root:
-                    if parent.left == curr:
-                        parent.left = None
-                    else:
-                        parent.right = None
-                else:
-                    self._root = None
-
-            # case: target node has two children
-            elif curr.left and curr.right:
-
-                # Find inorder successor or predecessor of the node
-                # here we use successor
-                successor = _find_inorder_successor(curr)
-
-                # store successor value
-                successor_val = successor.val
-
-                # Recursively delete the successor.
-                # Note that the successor has at most one child (right child)
-                _delete_rec(successor.val, descendants_need_fix)
-
-                # copy value of the successor to the current node
-                curr.val = successor_val
-
-            # case: target node has one child:
             else:
-                # back up the pointer to the child
-                if curr.left:
-                    child = curr.left
+                # case: target node has no child
+                # just delete it
+                if not root.left and not root.right:
+                    root = None
+                    return root
+
+                # case: target node has single child
+                # backup its child, delete the target node, and then return the child
+                # to the parent
+                elif not root.right:
+                    temp = root.left
+                    root = None
+                    return temp
+
+                elif not root.left:
+                    temp = root.right
+                    root = None
+                    return temp
+
+                # case: target node has two children
+                # replace the node with its inorder successor -- the smallest element on its right subtree
+                # then delete the successor recursively
                 else:
-                    child = curr.right
+                    successor = _find_inorder_successor(root)
+                    root.val = successor.val
+                    _delete_rec(root.right, successor.val)
 
-                # if the target node is not root then replace it with the child node
-                # we should not just replace the value because the chlid might have grandchildren
-                if curr != self._root:
-                    if curr == parent.left:
-                        parent.left = child
+            root.size -= 1
 
-                    else:
-                        parent.right = child
-                else:
-                    self._root = child
-
-            return True
+            return root
 
         # Record the nodes that is on descendants path.
         # The size of these nodes are impacted because of node deletion.
         descendants_need_fix = []
 
-        if _delete_rec(target, descendants_need_fix):
-            print(f'Delete {target}')
-            print('Nodes to be fixed: ', end='')
-            print(' '.join(str(item.val) for item in descendants_need_fix))
+        self._root = _delete_rec(self._root, target)
 
-            self._fix_all_sum(self._root, descendants_need_fix)
-        else:
-            print(f'Delete failed: {target} not found.')
+        print(f'Delete {target}')
+        print('Nodes to be fixed: ', end='')
+        print(' '.join(str(item.val) for item in descendants_need_fix))
+
+        self._fix_all_sum(self._root, descendants_need_fix)
 
     def _fix_all_sum(self, root: OSTreeNode, descendants_need_fix: List[int]) -> None:
         """Maintain size of each tree node after insert, delete, or value change. Start from the passed root.
@@ -151,7 +125,6 @@ class OSTree:
         """
 
         def _fix_sum(root: OSTreeNode) -> None:
-
             root.size = 1
 
             if root.left:
@@ -237,3 +210,26 @@ class OSTree:
 
         else:
             return rank
+
+    def visualize(self):
+        def _visualize_rec(curr_node: OSTreeNode, break_line: bool = True, indent: str = '', ):
+            if curr_node:
+                print(indent, end='')
+                if break_line:
+                    print("R----", end='')
+                    indent += "     "
+                else:
+                    print("L----", end='')
+                    indent += "|    "
+
+                print(curr_node.val)
+                _visualize_rec(curr_node.left, False, indent)
+                _visualize_rec(curr_node.right, True, indent)
+
+        if self._root:
+            print(self._root.val)
+            _visualize_rec(self._root.left, False)
+            _visualize_rec(self._root.right, True)
+
+        else:
+            print('There is no node in the tree.')
