@@ -40,6 +40,7 @@ class RedBlackTree:
 
         inserted_node.parent = parent
 
+        # if parent is None then it indicates the inserted node will be the root of RB tree
         if parent is None:
             inserted_node.color = Color.BLACK
             self.root = inserted_node
@@ -59,8 +60,6 @@ class RedBlackTree:
     def _fix_insertion(self, z: RedBlackTreeNode) -> None:
         while z.parent.color == Color.RED:
 
-            self.visualize()
-
             u = z.parent.parent.left if z.parent is z.parent.parent.right else z.parent.parent.right
 
             # note: the color of NIL node is BLACK
@@ -71,9 +70,12 @@ class RedBlackTree:
                 z = z.parent.parent
 
             else:
-                # z, parent, and grandparent forms a triangle
-                # rotate parent in the opposite direction of z
+                # if parent is leaning right
                 if z.parent is z.parent.parent.right:
+
+                    # z, parent, and grandparent forms a triangle
+                    # rotate parent in the opposite direction of z
+                    # which makes them in a line
                     if z is z.parent.left:
                         z = z.parent
                         self._right_rotate(z)
@@ -84,11 +86,17 @@ class RedBlackTree:
                     z.parent.parent.color = Color.RED
                     self._left_rotate(z.parent.parent)
 
+                # if parent is leaning left
                 else:
+                    # z, parent, and grandparent forms a triangle
+                    # rotate parent in the opposite direction of z
+                    # which makes them in a line
                     if z is z.parent.right:
                         z = z.parent
                         self._left_rotate(z)
 
+                    # z, parent, and grandparent forms a line
+                    # rotate grand parent in the opposite direction of z
                     z.parent.color = Color.BLACK
                     z.parent.parent.color = Color.RED
                     self._right_rotate(z.parent.parent)
@@ -99,8 +107,6 @@ class RedBlackTree:
             self.root.color = Color.BLACK
 
     def _left_rotate(self, z: RedBlackTreeNode) -> None:
-
-        print(z.val)
         y = z.right
         z.right = y.left
 
@@ -109,6 +115,9 @@ class RedBlackTree:
 
         y.parent = z.parent
 
+        # find out y should be left or right child of the origin parent of z
+        # if z was root then update root
+        # else links parent with y
         if z.parent is None:
             self.root = y
 
@@ -130,6 +139,9 @@ class RedBlackTree:
 
         y.parent = z.parent
 
+        # find out y should be left or right child of the origin parent of z
+        # if z was root then update root
+        # else links parent with y
         if z.parent is None:
             self.root = y
 
@@ -144,7 +156,7 @@ class RedBlackTree:
 
     # Print the tree
     def visualize(self):
-        def _visualize_rec(curr_node: RedBlackTree, break_line: bool = True, indent: str = '', ):
+        def _visualize_rec(curr_node: RedBlackTreeNode, break_line: bool = True, indent: str = '', ):
             if curr_node:
                 print(indent, end='')
                 if break_line:
