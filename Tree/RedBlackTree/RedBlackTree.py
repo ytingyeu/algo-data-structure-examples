@@ -106,6 +106,42 @@ class RedBlackTree:
 
             self.root.color = Color.BLACK
 
+    def delete(self, deleted_val: int) -> None:
+        target_node = self.root
+
+        while target_node is not self.NIL_NODE:
+
+            if deleted_val < target_node.val:
+                target_node = target_node.left
+
+            elif deleted_val > target_node.val:
+                target_node = target_node.right
+
+            else:
+                break
+
+        if target_node is self.NIL_NODE:
+            print(f'Value {deleted_val} is not found.')
+
+        original_color = target_node.color
+
+        if target_node.left is self.NIL_NODE:
+            replacement = target_node.right
+            self._transplant(target_node, replacement)
+
+        elif target_node.right is self.NIL_NODE:
+            replacement = target_node.left
+            self._transplant(target_node, replacement)
+
+        # target node has two children
+        else:
+            successor = self._find_inorder_successor(target_node)
+            # TO-DO
+
+    def _fix_deletion(self, z: RedBlackTreeNode) -> None:
+        # TO-DO
+        pass
+
     def _left_rotate(self, z: RedBlackTreeNode) -> None:
         y = z.right
         z.right = y.left
@@ -154,7 +190,30 @@ class RedBlackTree:
         y.right = z
         z.parent = y
 
+    def _transplant(self, to_be_deleted: RedBlackTreeNode, replacement: RedBlackTreeNode):
+        # if node to be deleted is the root of tree
+        # then update root
+        if to_be_deleted.parent is None:
+            self.root = replacement
+
+        elif to_be_deleted is to_be_deleted.parent.left:
+            to_be_deleted.parent.left = replacement
+
+        else:
+            to_be_deleted.parent.right = replacement
+
+        replacement.parent = to_be_deleted.parent
+
+    def _find_inorder_successor(self, root: RedBlackTreeNode) -> RedBlackTreeNode:
+        curr = root.right
+
+        while curr.left:
+            curr = curr.left
+
+        return curr
+
     # Print the tree
+
     def visualize(self):
         def _visualize_rec(curr_node: RedBlackTreeNode, break_line: bool = True, indent: str = '', ):
             if curr_node:
@@ -181,3 +240,5 @@ class RedBlackTree:
 
         else:
             print('There is no node in the tree.')
+
+        print('\n')
