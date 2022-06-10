@@ -69,8 +69,8 @@ class AVLTree:
             self._root = _insert_rec(self._root, val)
 
     def delete(self, del_val: int):
-        def _find_inorder_successor(curr: AVLTreeNode) -> AVLTreeNode:
-            curr = curr.right
+        def _find_inorder_successor(root: AVLTreeNode) -> AVLTreeNode:
+            curr = root.right
 
             while curr.left:
                 curr = curr.left
