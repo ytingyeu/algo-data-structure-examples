@@ -34,4 +34,9 @@ class TestTrie(unittest.TestCase):
         self.assertCountEqual(self.my_trie.find_all_starts_with('c'), [])
 
 
-unittest.main()
+def main():
+    unittest.main()
+
+
+if __name__ == "__main__":
+    main()
