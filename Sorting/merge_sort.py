@@ -69,4 +69,9 @@ class TestSolution(unittest.TestCase):
         self.assertListEqual(result, [-1, -1, 0, 1])
 
 
-unittest.main()
+def main():
+    unittest.main()
+
+
+if __name__ == "__main__":
+    main()
