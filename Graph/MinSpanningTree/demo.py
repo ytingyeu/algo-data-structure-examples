@@ -27,7 +27,7 @@ def demo_prims():
 
 
 def main():
-    # demo_kruskals()
+    demo_kruskals()
     demo_prims()
 
 
