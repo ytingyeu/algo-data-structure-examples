@@ -29,7 +29,9 @@ def prims_algo(edges: List[List[int]], weights: int) -> List[List[int]]:
     visited.add(start_pt)
     heapify(candidates)
 
-    while len(result) < len(adj_list) and len(candidates) > 0:
+    # The number of edges to form a MST equals to N - 1,
+    # where N is the number of nodes
+    while len(result) < len(adj_list) - 1:
 
         _, selected_vertex, selected_edge = heappop(candidates)
 
